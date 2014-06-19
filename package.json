@@ -1,13 +1,16 @@
 {
- "name" : "training app",
- "subdomain" : "training-app",
- "description" : "Training app"
- "version" : "0.0.1",
- "dependencies" : {"flatiron" : "*", "union" : "*"},
- "scripts" : {
-	"start" : "node app.js"
- },
- "engines" : {
-	"node" : "0.10.x"
- }
+    "name": "training app",
+    "subdomain": "training-app",
+    "description": "Training app",
+    "version": "0.0.1",
+    "dependencies": {
+        "flatiron": "*",
+        "union": "*"
+    },
+    "scripts": {
+        "start": "node app.js"
+    },
+    "engines": {
+        "node": "0.10.x"
+    }
 }
