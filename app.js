@@ -1,19 +1,18 @@
-// requires node's http module
-var http = require('http');
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
-// creates a new httpServer instance
-http.createServer(function(req, res) {
-    // this is the callback, or request handler for the httpServer
 
-    // respond to the browser, write some headers so the 
-    // browser knows what type of content we are sending
-    res.writeHead(200, {
-        'Content-Type': 'text/html'
-    });
+app.get('/', function(req, res) {
+    res.sendfile('index.html');
+});
 
-    // write some content to the browser that your user will see
-    res.write('<h1>hello, i know nodejitsu.</h1>');
+io.on('connection', function(socket) {
+    console.log('a user connected');
+});
 
-    // close the response
-    res.end();
-}).listen(8080); // the server will listen on port 8080
+http.listen(8080, function() {
+    console.log('listening on *:8080');
+});
+
+module.exports = app;
