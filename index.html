@@ -3,12 +3,32 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
-	  var socket = io();
+	  var socket = io('/lobby');
+
+	  socket.on('add player', function(data){
+	  	console.log(data);
+	  	if($(".playerList").find(".player-"+data.id).length === 0){
+	  		$(".playerList").append('<div class="player-'+data.id+'">'+data.name+'</div>');	 
+	  	}
+	  });
+
+	  socket.on('player leave', function(data){
+	  	$(".playerList").find(".player-"+data.id).remove();
+	  });
+
+	  $(document).ready(function(){
+	  	var name = prompt("Quel est ton nom ?");
+	  	socket.emit("player name", name);
+	  });
 	</script>
 </head>
 <body>
-	<div>Hello</div>
+	<div>Bienvenue dans le lobby</div>
+	<a href="/game"> Entrer dans le jeu </a>
+	<br />
+	<div class="playerList"></div>
 </body>
 </html>

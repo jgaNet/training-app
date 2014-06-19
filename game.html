@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+	  var socket = io('/game');
+
+	  socket.on('game', function(data){
+	    $('body').append(data.msg);
+	  });
+
+	  $(document).ready(function(){
+	  	socket.emit("player name", {name : name});
+	  });
+	</script>
+</head>
+<body>
+	<div>Bienvenue dans le jeu</div>
+</body>
+</html>

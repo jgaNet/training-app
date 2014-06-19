@@ -1,12 +1,13 @@
 {
   "subdomain": "training-app",
   "description": "Training app",
-  "version": "0.0.1-2",
+  "version": "0.0.1-3",
   "dependencies": {
     "flatiron": "*",
     "union": "*",
     "express": "~4.4.3",
-    "socket.io": "~1.0.5"
+    "socket.io": "~1.0.5",
+    "underscore": "~1.6.0"
   },
   "scripts": {
     "start": "node app.js"
