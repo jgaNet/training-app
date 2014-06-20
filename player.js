@@ -1,36 +1,34 @@
-function Player(options, lobby) {
-    this.lobby = options.lobby;
-    this.socket = options.socket;
-    this.name = options.name || "anonymous";
-    this.connection();
+function Player(user, position, game) {
+    this.user = user;
+    this.game = game;
+    this.position = position;
+
+    this.sendToOther("new Player", {
+        name : this.user.name,
+        socket : this.user.socket.id,
+        position : this.position,
+        self : false
+    });
+
+    this.send("new Player", {
+        name : this.user.name,
+        socket : this.user.socket.id,
+        position : this.position,
+        self : true
+    });
 }
 
-Player.prototype.connection = function() {
-    var player = this;
-    var lobby = this.lobby;
-
-    this.socket.on('disconnect', function() {
-        player.lobby.removePlayer(player);
-        player.socket.broadcast.emit('player leave', {
-            id: player.socket.id
-        });
-    });
-
-    this.socket.on("player name", function(name) {
-        lobby.players[player.socket.id].name = name
-        for (var i in lobby.players) {
-            player.sendToAll('add player', {
-                name: lobby.players[i].name,
-                id: lobby.players[i].socket.id
-            });
-        }
-    });
+Player.prototype.send = function(event, data) {
+    this.user.socket.emit(event, data)
 };
 
-Player.prototype.sendToAll = function(event, data) {
-    this.socket.emit(event, data);
-    this.socket.broadcast.emit(event, data);
-}
+Player.prototype.sendToOther = function(event, data) {
+    this.user.socket.broadcast.to(this.game.room).emit(event, data)
+};
 
+Player.prototype.sendToAll = function (event, data) {
+    this.send(event, data);
+    this.sendToOther(event, data);
+};
 
 module.exports = Player;

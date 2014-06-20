@@ -5,30 +5,19 @@
 	<title>Document</title>
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
-	<script>
-	  var socket = io('/lobby');
-
-	  socket.on('add player', function(data){
-	  	console.log(data);
-	  	if($(".playerList").find(".player-"+data.id).length === 0){
-	  		$(".playerList").append('<div class="player-'+data.id+'">'+data.name+'</div>');	 
-	  	}
-	  });
-
-	  socket.on('player leave', function(data){
-	  	$(".playerList").find(".player-"+data.id).remove();
-	  });
-
-	  $(document).ready(function(){
-	  	var name = prompt("Quel est ton nom ?");
-	  	socket.emit("player name", name);
-	  });
-	</script>
+	<script src="/main.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body>
-	<div>Bienvenue dans le lobby</div>
-	<a href="/game"> Entrer dans le jeu </a>
-	<br />
-	<div class="playerList"></div>
+	<div class="lobby">
+		<div>Bienvenue dans le lobby</div>
+		<a href="#" class="new-game"> Entrer dans le jeu </a>
+		<br />
+		<div class="playerList"></div>
+	</div>
+	<div class="game">
+		<canvas width="700" height="300"></canvas>
+	</div>
 </body>
 </html>
