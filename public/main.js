@@ -1,12 +1,12 @@
 var socket = io('/lobby');
 
-socket.on('add player', function(data){
+socket.on('add user', function(data){
     if($(".playerList").find(".player-"+data.id).length === 0){
         $(".playerList").append('<div class="player-'+data.id+'">'+data.name+'</div>');  
     }
 });
 
-socket.on('player leave', function(data){
+socket.on('user leave', function(data){
     $(".playerList").find(".player-"+data.id).remove();
 });
 
@@ -47,7 +47,7 @@ function Player(name, position, game) {
 
 Player.prototype.render = function () {
     this.game.context.beginPath();
-    this.game.context.rect(this.position.x , this.position.y - this.height/2, this.width, this.height);
+    this.game.context.rect(this.position.x - this.width /2 , this.position.y - this.height/2, this.width, this.height);
     this.game.context.fillStyle = "red";
     this.game.context.fill();
 }

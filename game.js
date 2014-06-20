@@ -22,7 +22,7 @@ Game.prototype.addPlayer = function(user) {
         }
     }
 
-    if(_.size(this.players) <= this.maxPlayer){
+    if(_.size(this.players) < this.maxPlayer){
         var position = (_.size(this.players) === 0) ? 0 : 1; 
         this.players[user.socket.id] = new Player(user, position, this);
 
