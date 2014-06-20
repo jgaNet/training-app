@@ -37,6 +37,10 @@ $(document).ready(function(){
         game.launch();
     });
 
+    socket.on('game restart', function(data){
+        game.restart(data.speed);
+    });
+
 });
 
 function Player(name, position, game) {
@@ -60,8 +64,8 @@ Player.prototype.render = function () {
 Player.prototype.touchBall = function (ball) {
     var sign = Math.abs(ball.speed.x)/ball.speed.x;
     var offsetX = (sign > 0) ? 0 : this.width;
-    var detectX = Math.abs((ball.position.x + (sign*ball.radius / 2)) - this.position.x - offsetX) < 1
-    var detectY = Math.abs(ball.position.y - this.position.y) > - ball.radius*2 && Math.abs(ball.position.y - this.position.y) < this.height + ball.radius*2;
+    var detectX = Math.abs((ball.position.x + (sign*ball.radius / 2)) - this.position.x - offsetX) < 10
+    var detectY = ball.position.y - this.position.y > -ball.radius*2 && ball.position.y - this.position.y < this.height + ball.radius*2;
 
     return {
         test : detectX && detectY,
@@ -123,6 +127,17 @@ Game.prototype.addPlayer = function(player, self) {
     }
 };
 
+
+Game.prototype.restart = function (speed) {
+    this.ball.speedAbs = Math.sqrt(speed.x*speed.x + speed.y*speed.y);
+    this.ball.speed = {
+        x : speed.x,
+        y : speed.y
+    };
+    this.ball.position.x = this.canvas.width / 2;
+    this.ball.position.y = this.canvas.height / 2
+}
+
 Game.prototype.controls = function () {
     var game = this;
     this.$canvas.on("mousemove", function(e){
@@ -156,9 +171,7 @@ Game.prototype.detectCollision = function () {
         }
 
         if(this.ball.position.x < 0 || this.ball.position.x > this.canvas.width){
-            this.ball.position.x = this.canvas.width / 2;
-            this.ball.position.y = this.canvas.height / 2
-            console.log("perdu");
+            socket.emit("end");
         }
 
         if((this.ball.position.y - this.ball.radius) < 0){
@@ -169,7 +182,6 @@ Game.prototype.detectCollision = function () {
             this.ball.speed.y = -this.ball.speedAbs;
         }
 
-        //Math.sqrt((this.ball.position.x - this.players[i].position.x)*(this.ball.position.x - this.players[i].position.x))+((this.ball.position.y - this.players[i].position.y)*(this.ball.position.y - this.players[i].position.y)))
     }
 };
 

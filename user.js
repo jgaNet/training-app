@@ -36,6 +36,7 @@ User.prototype.connection = function() {
     this.socket.on("leave lobby", function() {
         user.leaveLobby();
     });
+
 };
 
 User.prototype.createOrEnterInGame = function () {

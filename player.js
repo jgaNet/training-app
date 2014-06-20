@@ -1,4 +1,5 @@
 function Player(user, position, game) {
+    var player = this;
     this.user = user;
     this.game = game;
     this.position = position;
@@ -15,6 +16,16 @@ function Player(user, position, game) {
         socket : this.user.socket.id,
         position : this.position,
         self : true
+    });
+
+    this.user.socket.on("end", function(){
+        var sign = [1, -1];
+        player.sendToAll("game restart", {
+            speed : {
+                x : sign[Math.floor(Math.random()*2)]*Math.ceil(Math.random()*3 + 1),
+                y : sign[Math.floor(Math.random()*2)]*Math.ceil(Math.random()*3 + 1)
+            }
+        });
     });
 }
 

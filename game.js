@@ -40,7 +40,6 @@ Game.prototype.addPlayer = function(user) {
 
 Game.prototype.sendToAll = function(event, data) {
     for(var i in this.players){
-        console.log(this.players[i]);
         this.players[i].send(event, data);
     }
 };
