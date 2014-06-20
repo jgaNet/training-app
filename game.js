@@ -30,13 +30,17 @@ Game.prototype.addPlayer = function(user) {
             game.players[user.socket.id].sendToOther("opponent position", y);
         });
 
-    }else{
-        this.full = true;
+        if(_.size(this.players) == 2) {
+            this.full = true;
+            
+            game.sendToAll("game begin", {});
+        }
     }
 };
 
 Game.prototype.sendToAll = function(event, data) {
-    for(var i = 0; i < this.players.length; i++){
+    for(var i in this.players){
+        console.log(this.players[i]);
         this.players[i].send(event, data);
     }
 };
