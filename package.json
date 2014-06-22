@@ -1,7 +1,7 @@
 {
   "subdomain": "training-app",
   "description": "Training app",
-  "version": "0.0.1-5",
+  "version": "0.0.1-6",
   "dependencies": {
     "flatiron": "*",
     "union": "*",

@@ -19,15 +19,18 @@ function Player(user, position, game) {
     });
 
     this.user.socket.on("end", function(){
-        var sign = [1, -1];
-        player.sendToAll("game restart", {
-            speed : {
-                x : sign[Math.floor(Math.random()*2)]*Math.ceil(Math.random()*3 + 1),
-                y : sign[Math.floor(Math.random()*2)]*Math.ceil(Math.random()*3 + 1)
-            }
-        });
+        player.game.finished();
+    });
+
+    this.user.socket.on("disconnect", function (){
+        player.leaveGame();
     });
 }
+
+Player.prototype.leaveGame = function () {
+    this.sendToOther("leave game", {name : this.user.name});
+    this.game.removePlayer(this);
+};
 
 Player.prototype.send = function(event, data) {
     this.user.socket.emit(event, data)

@@ -46,11 +46,13 @@ User.prototype.createOrEnterInGame = function () {
         }
     });
 
+    console.log(this.lobby.games);
+    
     if(gameNotFull.length !== 0){
-        this.enterInGame(gameNotFull[0])
+        this.enterInGame(gameNotFull[0]);
     }else{
         var game = this.lobby.createGame();
-        this.enterInGame(game)
+        this.enterInGame(game);
     }
 
 };
